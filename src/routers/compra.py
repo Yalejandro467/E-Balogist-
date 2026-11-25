@@ -3,7 +3,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 
-from api.schemas import CompraCreate, CompraList, CompraRead, CompraUpdate, compraPost, compraPut
+from schemas.schemas import CompraCreate, CompraList, CompraRead, CompraUpdate, compraPost, compraPut
 from crud.compra_crud import CompraCRUD
 from crud.database import Database
 

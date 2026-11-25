@@ -8,7 +8,9 @@ class ProveedorCRUD:
         self.database = database
 
     def listar(self):
-        return self.database.rows("SELECT id_proveedor, nombre, tel, direccion, correo FROM proveedores")
+        return self.database.rows(
+            "SELECT id_proveedor, nombre, tel, direccion, correo FROM proveedores"
+        )
 
     def obtener(self, id_proveedor):
         rows = self.database.rows(
@@ -20,7 +22,7 @@ class ProveedorCRUD:
     def crear(self, nombre, tel, direccion, correo):
         id_proveedor = str(uuid4())
         self.database.run(
-            "INSERT INTO proveedores VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO proveedores (id_proveedor, nombre, tel, direccion, correo) VALUES (?, ?, ?, ?, ?)",
             (id_proveedor, nombre, tel, direccion, correo),
         )
         return id_proveedor

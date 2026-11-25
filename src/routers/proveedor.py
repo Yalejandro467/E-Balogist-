@@ -1,14 +1,11 @@
 from http import HTTPStatus
-from pathlib import Path
-
 from fastapi import APIRouter, HTTPException
-
-from schemas.schemas import ProveedorCreate, ProveedorList, ProveedorRead, ProveedorUpdate, proveedorPost, proveedorPut
 from crud.database import Database
+from schemas.schemas import ProveedorCreate, ProveedorList, ProveedorRead, ProveedorUpdate, proveedorPost, proveedorPut
 from crud.proveedor_crud import ProveedorCRUD
 
-proveedor_db = Database(Path(__file__).resolve().parents[1] / "database.sqlite3")
-proveedor_crud = ProveedorCRUD(proveedor_db)
+db = Database()
+proveedor_crud = ProveedorCRUD(db)
 
 proveedor_router = APIRouter(prefix="/proveedores", tags=["proveedores"])
 
