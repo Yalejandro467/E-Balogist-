@@ -1,3 +1,4 @@
+
 import os
 import uuid
 from datetime import datetime
@@ -15,10 +16,18 @@ if not DATABASE_URL:
     raise ValueError("La variable DATABASE_URL no está configurada en el archivo .env")
 
 # Crear el motor de conexión a Neon PostgreSQL
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,
+    pool_recycle=300
+)
 
 # Generador de sesiones
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
 # Base declarativa de SQLAlchemy
 Base = declarative_base()
@@ -32,9 +41,10 @@ class AuditModel(Base):
     fecha_creacion = Column(DateTime, default=datetime.utcnow, nullable=False)
     fecha_edicion = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
+
 def get_db():
     db = SessionLocal()
     try:
-        return db
+        yield db
     finally:
         db.close()
