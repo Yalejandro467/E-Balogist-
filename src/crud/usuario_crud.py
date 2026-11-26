@@ -12,11 +12,15 @@ class UsuarioCRUD:
     def __init__(self, session_factory=SessionLocal):
         self.session_factory = session_factory
 
-    def listar(self):
+    def listar(self, offset: int = 0, limit: int = 20):
         with self.session_factory() as sesion:
             usuarios = sesion.scalars(
-                select(Usuario).order_by(Usuario.id)
+                select(Usuario)
+                .order_by(Usuario.id)
+                .offset(offset)
+                .limit(limit)
             ).all()
+            
             return [
                 {
                     "id": usuario.id,

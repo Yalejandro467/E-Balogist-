@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException,Query, status
 
 from src.crud.usuario_crud import UsuarioCRUD
 from src.schemas.usuario import (
@@ -12,8 +12,14 @@ usuario_crud = UsuarioCRUD()
 
 
 @router.get("/", response_model=list[UsuarioResponse])
-def listar_usuarios():
-    return usuario_crud.listar()
+def listar_usuarios(
+    offset: int = Query(default=0, ge=0),
+    limit: int = Query(default=20, ge=1),
+):
+    return usuario_crud.listar(
+        offset=offset,
+        limit=limit,
+    )
 
 
 @router.get("/{id_usuario}", response_model=UsuarioResponse)
